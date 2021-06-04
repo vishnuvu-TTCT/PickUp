@@ -12,27 +12,28 @@ class OnboardPage extends StatefulWidget {
 class _OnboardPageState extends State<OnboardPage> {
   int currentIndex = 0;
   PageController? _controller;
-@override
+
+  @override
   void initState() {
     super.initState();
-    _controller  = PageController(
+    _controller = PageController(
       initialPage: 0,
     );
   }
+
   @override
   void dispose() {
     _controller?.dispose();
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size.height;
-    print(size);
     return SafeArea(
         child: Scaffold(
-          body: PageView.builder(
-            physics:new NeverScrollableScrollPhysics(),
+      body: PageView.builder(
+        physics: new NeverScrollableScrollPhysics(),
         itemCount: contents.length,
         controller: _controller,
         onPageChanged: (int index) {
@@ -46,21 +47,25 @@ class _OnboardPageState extends State<OnboardPage> {
       ),
     ));
   }
-  Widget customCard(int i){
-    return  Padding(
+
+  Widget customCard(int i) {
+    return Padding(
       padding: const EdgeInsets.only(top: 30),
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [
           Container(
+            alignment: Alignment.topCenter,
             height: MediaQuery.of(context).size.height * .9,
             padding: const EdgeInsets.only(left: 16),
-            child: Image.asset(contents[i].image,),
+            child: Image.asset(
+              contents[i].image,
+            ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height *.35 ,
-            color: Colors.white,
             alignment: Alignment.bottomCenter,
+            height: MediaQuery.of(context).size.height * .35,
+            color: Colors.white,
             child: Column(
               children: [
                 SizedBox(
@@ -97,7 +102,7 @@ class _OnboardPageState extends State<OnboardPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(
                     contents.length,
-                        (index) => buildDot(index, context),
+                    (index) => buildDot(index, context),
                   ),
                 ),
                 SizedBox(
@@ -108,31 +113,30 @@ class _OnboardPageState extends State<OnboardPage> {
                   children: [
                     currentIndex > 0
                         ? ElevatedButton(
-                      child: Text('<'),
-                      style: ElevatedButton.styleFrom(
-                        onPrimary: Colors.white,
-                        primary: Colors.black,
-                        minimumSize: Size(
-                            MediaQuery.of(context).size.width * .15,
-                            MediaQuery.of(context).size.width * .15),
-                      ),
-                      onPressed: () {
-                        _controller?.previousPage(
-                            duration: Duration(microseconds: 300),
-                            curve: Curves.bounceIn);
-                      },
-
-                    )
+                            child: Text('<'),
+                            style: ElevatedButton.styleFrom(
+                              onPrimary: Colors.white,
+                              primary: Colors.black,
+                              minimumSize: Size(
+                                  MediaQuery.of(context).size.width * .15,
+                                  MediaQuery.of(context).size.width * .15),
+                            ),
+                            onPressed: () {
+                              _controller?.previousPage(
+                                  duration: Duration(microseconds: 300),
+                                  curve: Curves.bounceIn);
+                            },
+                          )
                         : Container(),
                     SizedBox(
                       width: 5.0,
                     ),
                     ElevatedButton(
-                      onPressed: () {
-                        _controller?.nextPage(
-                          duration: Duration(milliseconds: 10),
-                          curve: Curves.easeIn,
-                        );
+                      onPressed: () async{
+                          _controller?.nextPage(
+                            duration: Duration(milliseconds: 10),
+                            curve: Curves.easeIn,
+                          );
                       },
                       child: Text(
                         currentIndex == contents.length - 1
@@ -146,9 +150,9 @@ class _OnboardPageState extends State<OnboardPage> {
                         // minimumSize: Size(50, 50),
                         minimumSize: currentIndex > 0
                             ? Size(MediaQuery.of(context).size.width * .65,
-                            MediaQuery.of(context).size.width * .15)
+                                MediaQuery.of(context).size.width * .15)
                             : Size(MediaQuery.of(context).size.width * .80,
-                            MediaQuery.of(context).size.width * .15),
+                                MediaQuery.of(context).size.width * .15),
                       ),
                     ),
                   ],
@@ -156,7 +160,6 @@ class _OnboardPageState extends State<OnboardPage> {
               ],
             ),
           )
-
         ],
       ),
     );
